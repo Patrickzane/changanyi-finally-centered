@@ -328,9 +328,9 @@ export default function App() {
         </div>
       </div>
 
-      {/* --- DESKTOP FIXED NAVBAR (V8.0 Fixed Top Symmetric) --- */}
+      {/* --- DESKTOP FIXED NAVBAR (V9.0 Full Width) --- */}
       <nav className="hidden md:block fixed top-0 inset-x-0 w-full z-50 bg-stone-950/90 backdrop-blur border-b border-stone-800 transition-all duration-300">
-        <div className="w-full max-w-6xl mx-auto px-8 h-20 grid grid-cols-[1fr_auto_1fr] items-center">
+        <div className="w-full px-12 h-20 grid grid-cols-[1fr_auto_1fr] items-center">
           
           {/* 1. Left: Brand */}
           <div className="flex flex-col justify-self-start">
@@ -371,7 +371,8 @@ export default function App() {
         {activeTab === 'home' && (
           <HeroSection lang={lang} t={T[lang]} notices={notices} reservationsEnabled={CONFIG.ENABLE_RESERVATIONS} onCta={() => { if (CONFIG.ENABLE_RESERVATIONS) { if(!currentUser) setShowLoginModal(true); setIsOracleOpen(true); } else { setActiveTab('menu'); } }} />
         )}
-        <div className="w-full max-w-[1600px] mx-auto px-6 md:px-12"> 
+        {/* Full Width Container */}
+        <div className="w-full px-6 md:px-12"> 
           {activeTab === 'menu' && <MenuSection lang={lang} t={T[lang]} menuData={menuData} isMember={currentUser?.role === 'member'} />}
           {activeTab === 'events' && <EventsSection lang={lang} t={T[lang]} notices={notices} />}
           {activeTab === 'profile' && <ProfileSection lang={lang} t={T[lang]} user={currentUser} myBookings={reservations.filter(r => r.phone === currentUser?.phone)} onLogout={handleLogout} />}
@@ -380,8 +381,8 @@ export default function App() {
 
       {/* Footer */}
       <footer className="bg-stone-950 border-t border-stone-800 w-full mt-auto">
-        <div className="max-w-[1600px] mx-auto py-12 px-12 text-center">
-          <p className="text-stone-600 text-xs uppercase tracking-widest mb-4">{T[lang].footer_copy} <span className="text-stone-800 ml-2">v8.0 Fixed Top Symmetric</span></p>
+        <div className="w-full py-12 px-12 text-center">
+          <p className="text-stone-600 text-xs uppercase tracking-widest mb-4">{T[lang].footer_copy} <span className="text-stone-800 ml-2">v9.0 Full Width Immersive</span></p>
           <button onClick={() => { if (!CONFIG.ENABLE_RESERVATIONS) { if(window.confirm(`${T[lang].staff_access}?`)) setViewMode('admin'); } else { if (currentUser?.phone === CONFIG.ADMIN_PHONE) { setViewMode('admin'); } else { alert(lang === 'zh' ? "权限受限。请以经理身份登录。" : "Acceso restringido."); setShowLoginModal(true); } } }} className="inline-flex items-center gap-1 text-stone-800 hover:text-stone-600 transition-colors text-[10px] uppercase tracking-wider"><Lock size={10} /> {T[lang].staff_access}</button>
         </div>
       </footer>
@@ -468,7 +469,7 @@ function MenuSection({ lang, t, menuData, isMember }) {
   return (
     <div className="py-24 w-full">
       {isMember && (<div className="mb-12 bg-amber-900/20 border border-amber-700/30 p-4 flex items-center gap-3 rounded-lg justify-center animate-fade-in max-w-2xl mx-auto"><Crown size={20} className="text-amber-500" /><p className="text-amber-200 text-sm font-medium">{t.member_price_active}</p></div>)}
-      <div className="space-y-16">{Object.entries(menuData).map(([category, items]) => (<div key={category}><h3 className="text-amber-600 uppercase tracking-widest text-xs font-bold mb-8 border-b border-stone-800 pb-2">{category}</h3><div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">{items.map(item => { const finalPrice = isMember ? (item.price * (1 - CONFIG.MEMBER_DISCOUNT)).toFixed(1) : item.price; return (<div key={item.id} className="group bg-stone-900/50 rounded-lg overflow-hidden border border-stone-800 hover:border-amber-800 transition-all hover:shadow-xl"><div className="h-64 overflow-hidden relative"><img src={item.img} alt={item.name[lang]} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" /><div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent opacity-80"></div><div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur px-3 py-1 rounded text-white font-bold border border-white/10">{CONFIG.CURRENCY}{finalPrice}</div></div><div className="p-6"><div className="flex justify-between items-baseline mb-2"><h4 className="text-xl text-white font-serif group-hover:text-amber-500 transition-colors">{item.name[lang]}</h4>{isMember && <span className="text-[10px] text-stone-500 line-through">{CONFIG.CURRENCY}{item.price}</span>}</div><p className="text-stone-400 text-sm leading-relaxed">{item.desc[lang]}</p></div></div>); })}</div></div>))}</div>
+      <div className="space-y-16">{Object.entries(menuData).map(([category, items]) => (<div key={category}><h3 className="text-amber-600 uppercase tracking-widest text-xs font-bold mb-8 border-b border-stone-800 pb-2">{category}</h3><div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">{items.map(item => { const finalPrice = isMember ? (item.price * (1 - CONFIG.MEMBER_DISCOUNT)).toFixed(1) : item.price; return (<div key={item.id} className="group bg-stone-900/50 rounded-lg overflow-hidden border border-stone-800 hover:border-amber-800 transition-all hover:shadow-xl"><div className="h-64 overflow-hidden relative"><img src={item.img} alt={item.name[lang]} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" /><div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent opacity-80"></div><div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur px-3 py-1 rounded text-white font-bold border border-white/10">{CONFIG.CURRENCY}{finalPrice}</div></div><div className="p-6"><div className="flex justify-between items-baseline mb-2"><h4 className="text-xl text-white font-serif group-hover:text-amber-500 transition-colors">{item.name[lang]}</h4>{isMember && <span className="text-[10px] text-stone-500 line-through">{CONFIG.CURRENCY}{item.price}</span>}</div><p className="text-stone-400 text-sm leading-relaxed">{item.desc[lang]}</p></div></div>); })}</div></div>))}</div>
     </div>
   );
 }
@@ -477,7 +478,7 @@ function EventsSection({ lang, t, notices }) {
   return (
     <div className="py-24 w-full min-h-screen">
       <div className="text-center mb-16"><span className="text-amber-600 uppercase tracking-widest text-xs font-bold mb-2 block">{t.happening}</span><h2 className="text-4xl font-serif text-white">{t.events_title}</h2></div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">{notices.map(notice => (<div key={notice.id} className="bg-stone-900 border border-stone-800 group hover:border-amber-700 transition-all overflow-hidden relative"><div className={`h-1 w-full ${notice.type === 'event' ? 'bg-red-600' : notice.type === 'promo' ? 'bg-amber-500' : 'bg-blue-500'}`}></div><div className="p-8"><span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded mb-4 inline-block ${notice.type === 'event' ? 'bg-red-900/30 text-red-500' : notice.type === 'promo' ? 'bg-amber-900/30 text-amber-500' : 'bg-blue-900/30 text-blue-500'}`}>{notice.type}</span><h3 className="text-xl font-serif text-white mb-4 group-hover:text-amber-500 transition-colors">{notice.title[lang]}</h3><p className="text-stone-400 text-sm leading-relaxed mb-6">{notice.content[lang]}</p><button className="text-xs uppercase tracking-widest text-stone-500 hover:text-white flex items-center gap-2">{t.details} <ArrowRight size={12} /></button></div></div>))}</div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">{notices.map(notice => (<div key={notice.id} className="bg-stone-900 border border-stone-800 group hover:border-amber-700 transition-all overflow-hidden relative"><div className={`h-1 w-full ${notice.type === 'event' ? 'bg-red-600' : notice.type === 'promo' ? 'bg-amber-500' : 'bg-blue-500'}`}></div><div className="p-8"><span className={`text-[10px] uppercase tracking-widest px-2 py-1 rounded mb-4 inline-block ${notice.type === 'event' ? 'bg-red-900/30 text-red-500' : notice.type === 'promo' ? 'bg-amber-900/30 text-amber-500' : 'bg-blue-900/30 text-blue-500'}`}>{notice.type}</span><h3 className="text-xl font-serif text-white mb-4 group-hover:text-amber-500 transition-colors">{notice.title[lang]}</h3><p className="text-stone-400 text-sm leading-relaxed mb-6">{notice.content[lang]}</p><button className="text-xs uppercase tracking-widest text-stone-500 hover:text-white flex items-center gap-2">{t.details} <ArrowRight size={12} /></button></div></div>))}</div>
     </div>
   );
 }
