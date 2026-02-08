@@ -319,6 +319,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-stone-950 text-stone-200 font-sans pb-24 md:pb-0 flex flex-col">
+      {/* ⚠️ FORCE VITE TO RESET ROOT STYLES */}
+      <style>{`
+        :root, body, #root { width: 100%; max-width: none; margin: 0; padding: 0; overflow-x: hidden; }
+      `}</style>
+
       {/* Mobile Header */}
       <div className="md:hidden flex justify-between items-center p-4 bg-stone-950/90 backdrop-blur sticky top-0 z-40 border-b border-stone-800">
         <span className="text-xl font-serif font-bold text-white tracking-widest">{T[lang].brand}</span>
@@ -328,9 +333,9 @@ export default function App() {
         </div>
       </div>
 
-      {/* --- DESKTOP FIXED NAVBAR (V9.0 Full Width) --- */}
+      {/* --- DESKTOP FIXED NAVBAR (V9.1 Full Width) --- */}
       <nav className="hidden md:block fixed top-0 inset-x-0 w-full z-50 bg-stone-950/90 backdrop-blur border-b border-stone-800 transition-all duration-300">
-        <div className="w-full px-12 h-20 grid grid-cols-[1fr_auto_1fr] items-center">
+        <div className="w-full px-6 md:px-12 h-20 grid grid-cols-[1fr_auto_1fr] items-center">
           
           {/* 1. Left: Brand */}
           <div className="flex flex-col justify-self-start">
@@ -381,8 +386,8 @@ export default function App() {
 
       {/* Footer */}
       <footer className="bg-stone-950 border-t border-stone-800 w-full mt-auto">
-        <div className="w-full py-12 px-12 text-center">
-          <p className="text-stone-600 text-xs uppercase tracking-widest mb-4">{T[lang].footer_copy} <span className="text-stone-800 ml-2">v9.0 Full Width Immersive</span></p>
+        <div className="w-full py-12 px-6 md:px-12 text-center">
+          <p className="text-stone-600 text-xs uppercase tracking-widest mb-4">{T[lang].footer_copy} <span className="text-stone-800 ml-2">v9.1 Full Bleed</span></p>
           <button onClick={() => { if (!CONFIG.ENABLE_RESERVATIONS) { if(window.confirm(`${T[lang].staff_access}?`)) setViewMode('admin'); } else { if (currentUser?.phone === CONFIG.ADMIN_PHONE) { setViewMode('admin'); } else { alert(lang === 'zh' ? "权限受限。请以经理身份登录。" : "Acceso restringido."); setShowLoginModal(true); } } }} className="inline-flex items-center gap-1 text-stone-800 hover:text-stone-600 transition-colors text-[10px] uppercase tracking-wider"><Lock size={10} /> {T[lang].staff_access}</button>
         </div>
       </footer>
